@@ -1,0 +1,64 @@
+.PHONY: build platform-builds build-matrix fmt lint test clean pre
+
+GOLANGCI_LINT_TIMEOUT ?= 2m
+
+BUILDTIME := $(shell date +%Y-%m-%dT%T%z)
+GITTAG := $(shell git describe --tags --always --dirty 2>/dev/null || printf 'v0.0.0')
+GITHASH := $(shell git rev-parse --short HEAD 2>/dev/null || printf 'unknown')
+VERSION ?= $(GITTAG)-$(shell date +%y.%m.%d)
+ROOT_DIR := $(CURDIR)
+OUTPUT_DIR := $(ROOT_DIR)/build/$(VERSION)
+APP_NAME := freshrss-cli
+OSES := linux darwin windows
+ARCHES := amd64 arm64
+LINUX_ARCHES := amd64 arm64 arm
+
+VERSION_LDFLAGS := -X freshrss-cli/pkg/version.VERSION=$(VERSION) \
+	-X freshrss-cli/pkg/version.BUILDTIME=$(BUILDTIME) \
+	-X freshrss-cli/pkg/version.GITHASH=$(GITHASH)
+
+build: | pre
+	CGO_ENABLED=0 go build -trimpath -ldflags "$(VERSION_LDFLAGS)" -o $(OUTPUT_DIR)/$(APP_NAME) ./cmd/freshrss-cli
+
+platform-builds: | pre
+	@set -e; \
+	for os in $(OSES); do \
+		arches="$(ARCHES)"; \
+		if [ "$$os" = "linux" ]; then arches="$(LINUX_ARCHES)"; fi; \
+		for arch in $$arches; do \
+			ext=""; \
+			if [ "$$os" = "windows" ]; then ext=".exe"; fi; \
+			binary="$(OUTPUT_DIR)/$(APP_NAME)_$${os}_$${arch}$$ext"; \
+			echo "Building $(APP_NAME) $(VERSION) for $$os/$$arch..."; \
+			CGO_ENABLED=0 GOOS=$$os GOARCH=$$arch go build -trimpath -ldflags "$(VERSION_LDFLAGS)" -o "$$binary" ./cmd/freshrss-cli; \
+			echo "Built: $$binary"; \
+		done; \
+	done
+
+build-matrix: | pre
+	@if [ -z "$(GOOS)" ] || [ -z "$(GOARCH)" ]; then \
+		echo "Error: GOOS and GOARCH must be specified."; \
+		echo "Example: make build-matrix GOOS=linux GOARCH=amd64"; \
+		exit 1; \
+	fi
+	@ext=""; \
+	if [ "$(GOOS)" = "windows" ]; then ext=".exe"; fi; \
+	binary="$(OUTPUT_DIR)/$(APP_NAME)_$(GOOS)_$(GOARCH)$$ext"; \
+	echo "Building $(APP_NAME) $(VERSION) for $(GOOS)/$(GOARCH)..."; \
+	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -trimpath -ldflags "$(VERSION_LDFLAGS)" -o "$$binary" ./cmd/freshrss-cli; \
+	echo "Built: $$binary"
+
+pre:
+	@mkdir -p $(OUTPUT_DIR)
+
+clean:
+	rm -rf $(ROOT_DIR)/build
+
+fmt:
+	gofmt -w ./cmd ./internal ./pkg
+
+lint:
+	golangci-lint run --config .golangci.yml --timeout $(GOLANGCI_LINT_TIMEOUT)
+
+test:
+	go test ./...

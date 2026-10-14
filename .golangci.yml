@@ -1,0 +1,45 @@
+version: "2"
+
+run:
+  timeout: 2m
+  modules-download-mode: readonly
+
+output:
+  formats:
+    text:
+      path: stdout
+      print-linter-name: true
+      print-issued-lines: true
+  sort-order:
+    - linter
+    - severity
+    - file
+
+linters:
+  default: none
+  enable:
+    - asciicheck
+    - bidichk
+    - contextcheck
+    - decorder
+    - errcheck
+    - errname
+    - govet
+    - ineffassign
+    - misspell
+    - revive
+    - staticcheck
+    - unused
+    - whitespace
+  settings:
+    revive:
+      rules:
+        - name: exported
+          severity: warning
+          disabled: true
+  exclusions:
+    generated: lax
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
