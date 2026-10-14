@@ -1,4 +1,4 @@
-.PHONY: build platform-builds build-matrix fmt lint test clean pre
+.PHONY: build platform-builds build-matrix fmt lint test integration-test clean pre
 
 GOLANGCI_LINT_TIMEOUT ?= 2m
 
@@ -55,10 +55,13 @@ clean:
 	rm -rf $(ROOT_DIR)/build
 
 fmt:
-	gofmt -w ./cmd ./internal ./pkg
+	gofmt -w ./cmd ./internal ./pkg ./testsuite
 
 lint:
 	golangci-lint run --config .golangci.yml --timeout $(GOLANGCI_LINT_TIMEOUT)
 
 test:
 	go test ./...
+
+integration-test:
+	go test -tags=integration ./testsuite/...

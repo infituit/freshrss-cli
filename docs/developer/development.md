@@ -68,3 +68,11 @@ make lint
 - 使用 HTTP transport stub 验证 method、URL、请求体和响应解析。
 - 配置错误、非 2xx 响应和非法 JSON 至少各覆盖一个测试场景。
 - 涉及写操作的命令必须验证 action 参数，避免默认产生不可逆变更。
+
+FreshRSS 集成测试是显式 opt-in 的 Docker Compose 测试：
+
+```sh
+make integration-test
+```
+
+测试会启动隔离的 FreshRSS 容器，执行 Fever 认证检查，并在结束时删除容器和卷。可通过 `FRESHRSS_TEST_PORT` 修改默认的本地端口 `18080`。
