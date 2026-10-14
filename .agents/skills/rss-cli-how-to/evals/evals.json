@@ -1,0 +1,25 @@
+{
+  "skill_name": "rss-cli-how-to",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我要给 pkg/thirdparty/freshrss 增加 Fever auth-check，并补一个真实 FreshRSS 测试。应该加载哪些 skill，默认测试会不会启动 Docker？",
+      "expected_output": "先读 pkg/AGENTS.md，加载 rss-cli-testsuite-support；协议单测仍使用 transport stub，真实测试使用 integration tag 和 RequireFreshRSS，go test ./... 不启动 Docker，并给出编译/集成验证命令。"
+    },
+    {
+      "id": 2,
+      "prompt": "我要新增一个 rss-cli 命令，同时修改配置读取和 JSON/table 输出，应该把逻辑放在哪里并加载什么？",
+      "expected_output": "检查 cmd/AGENTS.md、internal/AGENTS.md 和代表实现；cmd 只负责入口/退出，命令组装在 internal，配置和 output 保持各自边界；按需加载 audience skill，不创建新的跨 provider 抽象。"
+    },
+    {
+      "id": 3,
+      "prompt": "我要新增一篇 FreshRSS API 文档并顺便改 README，应该把调查过程写进去吗？",
+      "expected_output": "加载 rss-cli-audience-boundary 和 rss-cli-information-architecture，按 docs/reference 与 README 的责任放置；只写已验证事实、限制和下一步，不写调查日志，并同步 docs/README.md 或相关入口。"
+    },
+    {
+      "id": 4,
+      "prompt": "这是一个纯 Go 小 helper，与 rss-cli 的目录、CLI、FreshRSS 或配置契约都无关，应该加载所有 rss-cli skills 吗？",
+      "expected_output": "不加载所有项目 skill；先确认没有项目边界，再使用通用 Go 指导，仅在确有语言层面问题时加入。"
+    }
+  ]
+}

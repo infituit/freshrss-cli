@@ -1,3 +1,5 @@
-module github.com/infituit/freshrss-cli
+module github.com/infituit/rss-cli
 
 go 1.25
+
+require gopkg.in/yaml.v3 v3.0.1

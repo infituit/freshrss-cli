@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  APP_NAME: freshrss-cli
+  APP_NAME: rss-cli
 
 jobs:
   validate:
@@ -68,7 +68,7 @@ jobs:
           go-version-file: go.mod
 
       - run: go test ./...
-      - run: go build ./cmd/freshrss-cli
+      - run: go build ./cmd/rss-cli
 
   build:
     name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
@@ -121,8 +121,8 @@ jobs:
           ext=""
           if [ "$GOOS" = windows ]; then ext=.exe; fi
           CGO_ENABLED=0 go build -trimpath \
-            -ldflags "-X github.com/infituit/freshrss-cli/pkg/version.VERSION=$TAG -X github.com/infituit/freshrss-cli/pkg/version.GITHASH=$git_hash" \
-            -o "dist/${APP_NAME}${ext}" ./cmd/freshrss-cli
+            -ldflags "-X github.com/infituit/rss-cli/pkg/version.VERSION=$TAG -X github.com/infituit/rss-cli/pkg/version.GITHASH=$git_hash" \
+            -o "dist/${APP_NAME}${ext}" ./cmd/rss-cli
           if [ "$GOOS" = windows ]; then
             (cd dist && zip "../${archive}.zip" "${APP_NAME}.exe")
           else

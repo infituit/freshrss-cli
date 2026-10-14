@@ -1,9 +1,9 @@
 ---
-name: freshrss-cli-audience-boundary
-description: Use when writing or reviewing freshrss-cli README files, usage guides, developer docs, Fever API references, Issues, Pull Requests, or other reader-facing artifacts.
+name: rss-cli-audience-boundary
+description: Use when writing or reviewing rss-cli README files, usage guides, developer docs, Fever API references, Issues, Pull Requests, or other reader-facing artifacts.
 ---
 
-# freshrss-cli Audience Boundary
+# rss-cli Audience Boundary
 
 ## Reader And Artifact
 

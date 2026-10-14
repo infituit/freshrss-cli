@@ -33,7 +33,7 @@ func RequireFreshRSS(t testing.TB) FreshRSS {
 	t.Helper()
 	root := repositoryRoot(t)
 	port := configuredPort(t)
-	project := fmt.Sprintf("freshrss-cli-test-%d", time.Now().UnixNano())
+	project := fmt.Sprintf("rss-cli-test-%d", time.Now().UnixNano())
 	baseURL := fmt.Sprintf("http://127.0.0.1:%d", port)
 	envFile := filepath.Join(t.TempDir(), "compose.env")
 	writeComposeEnv(t, envFile, port, baseURL)

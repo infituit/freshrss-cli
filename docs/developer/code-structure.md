@@ -1,42 +1,33 @@
 # 代码目录
 
-当前仓库是单一 Go CLI，目录按 `cmd`、`internal`、`pkg` 分层，不设置多服务目录。
-
 ```text
-freshrss-cli/
-├── cmd/
-│   └── freshrss-cli/
-│       └── main.go          # 进程入口
+rss-cli/
+├── cmd/rss-cli/main.go                 # 进程入口
 ├── internal/
-│   ├── cli/
-│   │   └── cli.go           # 命令分发和 CLI 输出
-│   └── config/
-│       └── config.go        # 环境变量合并
+│   ├── cli/cli.go                       # 命令树与服务组装
+│   ├── config/config.go                 # XDG、context 和 service 配置
+│   ├── credential/store.go              # credentials.enc
+│   └── output/output.go                 # JSON、table 和错误输出
 ├── pkg/
-│   ├── fever/
-│   │   ├── client.go        # Fever API client
-│   │   └── client_test.go   # client 单元测试
-│   └── version/
-│       ├── version.go       # 构建版本元数据和格式化
-│       └── version_test.go  # 版本输出测试
-├── docs/                    # 项目文档
-├── go.mod
-├── README.md
-└── ...
+│   ├── thirdparty/freshrss/             # FreshRSS Fever client
+│   └── version/                         # 构建版本元数据
+├── testsuite/                           # opt-in FreshRSS 集成测试
+├── docs/                                # 读者文档
+├── AGENTS.md                            # 仓库级实现规则
+└── go.mod
 ```
 
 ## 放置规则
 
-- 新增可执行程序放入 `cmd/<name>`。
-- 只服务于本项目 CLI 的命令和配置放入 `internal`。
-- 已经证明具有跨命令复用价值的 Fever API 或领域能力放入 `pkg`。
-- 构建版本元数据放入 `pkg/version`，由构建脚本统一注入和读取。
-- 用户可见的使用方式、协议说明和开发约定放入 `docs`。
-- 不要为了预留未来功能创建空目录或空抽象。
+- 新可执行程序放入 `cmd/<name>`。
+- 项目私有命令、配置、凭据和输出放入 `internal`。
+- 外部服务协议放入 `pkg/thirdparty/<service>`。
+- 只有已证明跨命令复用的通用库才放入其他 `pkg` 子目录。
+- 文档放入对应的 `docs` 分区，不把实现规则写入读者文档。
 
 ## 命名规则
 
-- Go package 使用简短、小写、单一职责的名称。
-- 命令名称使用 kebab-case，例如 `auth-check`。
-- 环境变量使用 `FRESHRSS_` 前缀。
-- 对外暴露的类型和函数必须有清晰的 Go doc；内部实现不强制导出。
+- 项目、二进制和根命令名称为 `rss-cli`。
+- 服务使用顶层命令名，例如 `freshrss`。
+- 配置覆盖变量为 `RSS_CLI_CONFIG_DIR`；XDG 变量使用标准名称。
+- Go package 使用简短、小写、单一职责名称。
