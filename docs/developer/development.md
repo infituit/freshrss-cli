@@ -36,6 +36,14 @@ make build
 - `make build-matrix GOOS=linux GOARCH=amd64` 构建单个指定组合。
 - 交叉构建固定使用 `CGO_ENABLED=0` 和 `-trimpath`，产物名包含目标平台和架构。
 
+UPX 压缩：
+
+- `UPX_ENABLED` 默认为空；设置为 `1` 后，构建完成自动压缩二进制。
+- `UPX_LEVEL` 默认是 `9`，也可通过 `UPX_ARGS` 直接覆盖 UPX 参数。
+- `UPX_SUPPORTED_PLATFORMS` 限制跨平台压缩范围，不支持的平台只跳过压缩，不影响构建。
+- 项目通过 `mise.toml` 固定 `upx` 版本；首次使用前运行 `mise install`。
+- 启用压缩前由 `check-upx` 检查 `upx` 是否存在；缺少工具时直接失败，避免产出未按要求处理的构建结果。
+
 版本元数据：
 
 - `pkg/version` 保存 `VERSION`、`BUILDTIME` 和 `GITHASH` 三项构建信息。

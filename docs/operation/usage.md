@@ -40,6 +40,15 @@ make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=arm64
 
 全平台产物使用 `<name>_<GOOS>_<GOARCH>` 命名，Windows 产物增加 `.exe` 后缀，统一输出到 `build/<VERSION>/`。当前矩阵包括 Linux `amd64`、`arm64`、`arm`，以及 Darwin 和 Windows 的 `amd64`、`arm64`。
 
+UPX 压缩默认关闭。启用后，构建完成会自动压缩产物：
+
+```sh
+make build VERSION=v0.1.0-alpha.1 UPX_ENABLED=1
+make platform-builds VERSION=v0.1.0-alpha.1 UPX_ENABLED=1 UPX_LEVEL=9
+```
+
+项目通过 `mise.toml` 固定 UPX 版本，启用压缩前运行 `mise install`。UPX 压缩支持 Linux `amd64`、`arm64`、`arm` 和 Windows `amd64`；Darwin 以及 Windows `arm64` 会跳过压缩。缺少 `upx` 时构建会直接失败。
+
 ## 配置方式
 
 ### 使用用户名和 API password
