@@ -1,31 +1,25 @@
 # 文档导航
 
-本文档面向 `freshrss-cli` 的使用者和贡献者，按目标、运行、开发和协议参考组织。
+本文档面向 `rss-cli` 的使用者、维护者和协议集成开发者。
 
-## 文档分区
+## Concepts
 
-### Concepts
+- [项目目标与边界](concepts/project-goals.md)：定位、核心概念和当前范围。
 
-- [项目目标与边界](concepts/project-goals.md)：项目解决的问题、首阶段范围和非目标。
+## Operation
 
-### Operation
+- [使用与配置](operation/usage.md)：构建、context、FreshRSS 配置和命令输出。
 
-- [使用与配置](operation/usage.md)：安装、配置、运行当前 CLI 命令和常见错误。
+## Developer
 
-### Developer
+- [架构设计](developer/architecture.md)：代码职责、依赖方向和运行链路。
+- [代码目录](developer/code-structure.md)：目录结构与放置规则。
+- [开发指南](developer/development.md)：测试、构建和新增服务能力。
+- [版本与构建规则](developer/versioning.md)：版本元数据和构建产物。
+- [Git 协作规范](developer/git-contribution.md)：贡献和验证要求。
 
-- [架构设计](developer/architecture.md)：调用链、模块职责和依赖方向。
-- [代码目录](developer/code-structure.md)：`cmd`、`internal`、`pkg` 的目录约定。
-- [开发指南](developer/development.md)：本地开发、测试和新增功能的基本流程。
-- [版本与构建规则](developer/versioning.md)：发布版本、构建版本、元数据注入和产物目录约定。
-- [Git 协作规范](developer/git-contribution.md)：分支、Commit、Issue、PR 和按范围验证要求。
+## Reference
 
-### Reference
+- [FreshRSS Fever API](reference/fever-api.md)：认证、请求和响应约定。
 
-- [FreshRSS Fever API](reference/fever-api.md)：本项目依赖的认证方式、请求约定和响应字段。
-
-## 文档约定
-
-- 文档中的“当前”只描述仓库中已经实现并可验证的行为。
-- “规划”表示目标方向，不代表已有 CLI 命令或稳定 API。
-- 涉及密码、API key 或 token 的示例使用占位值，不提交真实凭据。
+文档中的“当前”只描述仓库中已经实现并可验证的行为；规划内容不会被写成稳定命令或公开 API。

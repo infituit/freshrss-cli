@@ -1,4 +1,4 @@
-package fever
+package freshrss
 
 import (
 	"context"
@@ -9,12 +9,17 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/infituit/freshrss-cli/internal/config"
 )
 
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
+}
+
+type Config struct {
+	BaseURL     string
+	Username    string
+	APIPassword string
+	APIKey      string
 }
 
 type Client struct {
@@ -29,7 +34,7 @@ type AuthResponse struct {
 	LastRefreshedOnTime string `json:"last_refreshed_on_time"`
 }
 
-func NewClient(cfg config.Config, httpClient HTTPClient) (*Client, error) {
+func NewClient(cfg Config, httpClient HTTPClient) (*Client, error) {
 	if strings.TrimSpace(cfg.BaseURL) == "" {
 		return nil, fmt.Errorf("FreshRSS URL is required")
 	}
@@ -37,7 +42,7 @@ func NewClient(cfg config.Config, httpClient HTTPClient) (*Client, error) {
 	apiKey := strings.TrimSpace(cfg.APIKey)
 	if apiKey == "" {
 		if strings.TrimSpace(cfg.Username) == "" || cfg.APIPassword == "" {
-			return nil, fmt.Errorf("Fever API key or username and API password are required")
+			return nil, fmt.Errorf("fever API key or username and API password are required")
 		}
 		apiKey = APIKey(cfg.Username, cfg.APIPassword)
 	}
@@ -92,10 +97,10 @@ func (c *Client) post(ctx context.Context, query url.Values, out any) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		return fmt.Errorf("Fever API returned HTTP %d", resp.StatusCode)
+		return fmt.Errorf("fever API returned HTTP %d", resp.StatusCode)
 	}
 	if err := json.NewDecoder(resp.Body).Decode(out); err != nil {
 		return fmt.Errorf("decode Fever API response: %w", err)

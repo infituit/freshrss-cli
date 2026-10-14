@@ -6,14 +6,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/infituit/freshrss-cli/internal/config"
-	"github.com/infituit/freshrss-cli/pkg/fever"
-	"github.com/infituit/freshrss-cli/testsuite/support"
+	"github.com/infituit/rss-cli/pkg/thirdparty/freshrss"
+	"github.com/infituit/rss-cli/testsuite/support"
 )
 
 func TestFreshRSSFeverAuthCheck(t *testing.T) {
 	instance := support.RequireFreshRSS(t)
-	client, err := fever.NewClient(config.Config{
+	client, err := freshrss.NewClient(freshrss.Config{
 		BaseURL:     instance.BaseURL,
 		Username:    instance.Username,
 		APIPassword: instance.APIPassword,

@@ -1,79 +1,37 @@
 # 开发指南
 
-## 开发前检查
-
-```sh
-go version
-```
-
-确认未覆盖其他人的工作区变更，并使用当前 Go 版本执行验证。
-
 ## 本地验证
 
-格式化：
-
 ```sh
-gofmt -w ./cmd ./internal ./pkg
-```
-
-测试：
-
-```sh
+mise install
+gofmt -w ./cmd ./internal ./pkg ./testsuite
 go test ./...
-```
-
-构建：
-
-```sh
 make build
-```
-
-构建产物写入 `build/<VERSION>/`，该目录已加入 Git 忽略规则。`make clean` 会删除整个 `build/`。
-
-跨平台构建：
-
-- `make platform-builds` 构建预设的全部 `GOOS/GOARCH` 组合。
-- `make build-matrix GOOS=linux GOARCH=amd64` 构建单个指定组合。
-- 交叉构建固定使用 `CGO_ENABLED=0` 和 `-trimpath`，产物名包含目标平台和架构。
-
-版本元数据：
-
-- `pkg/version` 保存 `VERSION`、`BUILDTIME` 和 `GITHASH` 三项构建信息。
-- `Makefile` 使用 `-ldflags -X` 注入发布值；默认版本来自 Git tag、日期和当前 commit。
-- 不使用 Makefile 时允许直接 `go build`，但得到的是开发默认值。
-- 发布版本和构建版本的完整规则见 [版本与构建规则](versioning.md)。
-
-静态检查：
-
-```sh
 make lint
 ```
 
-`make lint` 需要本地安装 `golangci-lint`。配置文件为仓库根目录的 `.golangci.yml`，使用 v2 格式并显式启用适用于本项目的规则。
-
-## 新增 API 命令
-
-新增 Fever API 命令时遵循以下顺序：
-
-1. 在 `pkg/fever` 增加协议请求、响应类型和单元测试。
-2. 在 `internal/cli` 增加命令参数和输出转换。
-3. 在 `docs/operation/usage.md` 更新命令状态和示例。
-4. 在 `docs/reference/fever-api.md` 补充对应的 Fever API action。
-5. 运行 `gofmt`、`go test ./...`、`make build` 和 `make lint`。
-
-不要在 CLI 层重复拼接 Fever API URL 或计算 API key。
-
-## 测试原则
-
-- 不依赖真实 FreshRSS 实例执行单元测试。
-- 使用 HTTP transport stub 验证 method、URL、请求体和响应解析。
-- 配置错误、非 2xx 响应和非法 JSON 至少各覆盖一个测试场景。
-- 涉及写操作的命令必须验证 action 参数，避免默认产生不可逆变更。
-
-FreshRSS 集成测试是显式 opt-in 的 Docker Compose 测试：
+集成测试需要 Docker：
 
 ```sh
 make integration-test
 ```
 
-测试会启动隔离的 FreshRSS 容器，执行 Fever 认证检查，并在结束时删除容器和卷。可通过 `FRESHRSS_TEST_PORT` 修改默认的本地端口 `18080`。
+它是显式 opt-in 测试，会启动隔离的 FreshRSS Compose 实例并在结束时清理容器和卷。
+
+## 新增服务能力
+
+1. 在 `pkg/thirdparty/<service>` 实现协议 client、请求/响应类型和 transport stub 测试。
+2. 在 `internal/cli` 增加该服务顶层命令。
+3. 复用 `internal/config` 的 context/service 存储，不把 provider 字段放入 context 逻辑。
+4. 使用 `internal/output` 输出 JSON、table 和错误结果。
+5. 更新 `README.md`、`docs/README.md` 及对应 `docs/operation`、`docs/reference` 文档。
+6. 运行格式化、单元测试、构建和 lint。
+
+不同服务不要求采用相同的业务资源模型。只有多个服务确实共享同一语义和行为时，才提取跨服务抽象。
+
+## 测试原则
+
+- 单元测试不得依赖真实 RSS 服务。
+- HTTP provider 测试必须验证 method、URL、请求体和响应解析。
+- 配置错误、未知 YAML 字段、非 2xx 响应和非法 JSON 应覆盖测试。
+- 凭据测试必须验证加密文件不可直接读取，并验证保存、读取和删除流程。

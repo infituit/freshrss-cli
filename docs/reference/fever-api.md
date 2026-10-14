@@ -46,7 +46,7 @@ printf '%s' 'alice:replace-me' | md5sum
 - `auth`：`1` 表示认证成功，`0` 表示认证失败。
 - `last_refreshed_on_time`：最近一次刷新时间，通常是 Unix timestamp 字符串。
 
-## 常见 actions
+## 其他 Fever actions
 
 Fever API 常见 action 包括：
 
@@ -58,7 +58,7 @@ Fever API 常见 action 包括：
 - `mark=item&as=read&id=<id>`
 - `mark=item&as=unread&id=<id>`
 
-这些 action 是项目的后续实现方向；当前 CLI 只实现基础 `auth-check`。
+这些 action 属于 Fever 协议能力；当前 CLI 暴露的是 FreshRSS `auth check`，其他资源命令尚未实现。
 
 ## 参考资料
 

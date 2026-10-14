@@ -1,9 +1,9 @@
 ---
-name: freshrss-cli-information-architecture
-description: Use when deciding where freshrss-cli knowledge belongs across AGENTS.md, README.md, docs, .agents/skills, GitHub Issues, PRs, and temporary task notes.
+name: rss-cli-information-architecture
+description: Use when deciding where rss-cli knowledge belongs across AGENTS.md, README.md, docs, .agents/skills, GitHub Issues, PRs, and temporary task notes.
 ---
 
-# freshrss-cli Information Architecture
+# rss-cli Information Architecture
 
 在新增或移动长期内容前，先做 `Placement Decision`，按内容的责任边界和变化原因选择 artifact，不把 `docs/` 或 `.agents/` 当作内容垃圾桶。
 

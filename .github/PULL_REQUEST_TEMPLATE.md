@@ -9,7 +9,7 @@
 <!-- 只记录当前代码实际运行过的验证。未运行的检查请说明原因。 -->
 
 - [ ] `go test ./...`
-- [ ] `go build ./cmd/freshrss-cli`
+- [ ] `go build ./cmd/rss-cli`
 - [ ] `make lint`
 - [ ] 已完成手工验证 / Manual verification completed
 - [ ] 未测试，原因 / Not tested because:

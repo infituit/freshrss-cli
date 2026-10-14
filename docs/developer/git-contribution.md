@@ -91,13 +91,13 @@ fix: fix multiple related bugs --issue=#100, #101, #102
 
 ## 按改动范围验证
 
-| 改动范围                          | 最低验证要求                                                |
-| --------------------------------- | ----------------------------------------------------------- |
-| `cmd/**`、`internal/**`、`pkg/**` | `go test ./...`、`go build ./cmd/freshrss-cli`              |
-| Fever API 或认证配置              | 上述命令，以及 HTTP 请求和错误场景的相关测试                |
-| `.golangci.yml`、`Makefile`       | `go test ./...`、`go build ./cmd/freshrss-cli`、`make lint` |
-| `docs/**`                         | 检查链接、命令和配置示例与当前实现一致                      |
-| `.github/**`                      | 检查 YAML/Markdown 结构和模板字段是否适用于当前项目         |
+| 改动范围                          | 最低验证要求                                           |
+| --------------------------------- | ------------------------------------------------------ |
+| `cmd/**`、`internal/**`、`pkg/**` | `go test ./...`、`go build ./cmd/rss-cli`              |
+| Fever API 或认证配置              | 上述命令，以及 HTTP 请求和错误场景的相关测试           |
+| `.golangci.yml`、`Makefile`       | `go test ./...`、`go build ./cmd/rss-cli`、`make lint` |
+| `docs/**`                         | 检查链接、命令和配置示例与当前实现一致                 |
+| `.github/**`                      | 检查 YAML/Markdown 结构和模板字段是否适用于当前项目    |
 
 跨模块改动至少说明以下链路是否变化：
 

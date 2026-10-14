@@ -1,4 +1,4 @@
-package fever
+package freshrss
 
 import (
 	"context"
@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strings"
 	"testing"
-
-	"github.com/infituit/freshrss-cli/internal/config"
 )
 
 func TestAPIKey(t *testing.T) {
@@ -19,7 +17,7 @@ func TestAPIKey(t *testing.T) {
 }
 
 func TestNewClientBuildsFreshRSSEndpoint(t *testing.T) {
-	client, err := NewClient(config.Config{BaseURL: "https://example.com", APIKey: "key"}, nil)
+	client, err := NewClient(Config{BaseURL: "https://example.com", APIKey: "key"}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -49,7 +47,7 @@ func TestAuthCheckPostsAPIKey(t *testing.T) {
 		}, nil
 	})
 
-	client, err := NewClient(config.Config{BaseURL: "https://example.com", APIKey: "key"}, httpClient)
+	client, err := NewClient(Config{BaseURL: "https://example.com", APIKey: "key"}, httpClient)
 	if err != nil {
 		t.Fatal(err)
 	}

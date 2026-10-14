@@ -1,11 +1,11 @@
 ---
-name: freshrss-cli-create-pr
-description: Use when preparing, creating, updating, replacing, or splitting a GitHub Pull Request for freshrss-cli, including CLI commands, Fever API, credentials, build tooling, tests, and documentation changes.
+name: rss-cli-create-pr
+description: Use when preparing, creating, updating, replacing, or splitting a GitHub Pull Request for rss-cli, including CLI commands, Fever API, credentials, build tooling, tests, and documentation changes.
 ---
 
-# Create a freshrss-cli Pull Request
+# Create an rss-cli Pull Request
 
-This is the project delivery workflow for `freshrss-cli`. It binds PR scope, validation, Issue relations, and remote-write safety to this repository's CLI, Fever API, configuration, tooling, and documentation contracts.
+This is the project delivery workflow for `rss-cli`. It binds PR scope, validation, Issue relations, and remote-write safety to this repository's CLI, Fever API, configuration, tooling, and documentation contracts.
 
 ## Operating Modes
 
@@ -50,7 +50,7 @@ Search for an existing Issue before proposing a duplicate. Every PR title must i
 
 | Changed paths                     | Required validation                                       |
 | --------------------------------- | --------------------------------------------------------- |
-| `cmd/**`, `internal/**`, `pkg/**` | `go test ./...`; `go build ./cmd/freshrss-cli`            |
+| `cmd/**`, `internal/**`, `pkg/**` | `go test ./...`; `go build ./cmd/rss-cli`                 |
 | Fever API or auth/config          | above plus relevant HTTP/error tests                      |
 | `.golangci.yml`, `Makefile`       | above plus `make lint`                                    |
 | `docs/**`                         | links, commands, and config examples match implementation |
