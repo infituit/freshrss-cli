@@ -29,9 +29,9 @@
 
 ## 关联 Issue / Related Issues
 
-<!-- 使用 closes/fixes/resolves 关联会被本 PR 完成的 Issue；没有则写 N/A。 -->
+<!-- 标题必须包含 --issue=#N；正文使用 closes/fixes/resolves 关联本 PR 完成的 Issue，使用 refs/related to 表示阶段性工作。 -->
 
-- <!-- Closes/Fixes/Resolves #issue or N/A -->
+- <!-- Closes/Fixes/Resolves/Refs/Related to #issue -->
 
 ## 涉及范围 / Affected Areas
 
