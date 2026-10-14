@@ -41,6 +41,7 @@ make build
 - `pkg/version` 保存 `VERSION`、`BUILDTIME` 和 `GITHASH` 三项构建信息。
 - `Makefile` 使用 `-ldflags -X` 注入发布值；默认版本来自 Git tag、日期和当前 commit。
 - 不使用 Makefile 时允许直接 `go build`，但得到的是开发默认值。
+- 发布版本和构建版本的完整规则见 [版本与构建规则](versioning.md)。
 
 静态检查：
 
