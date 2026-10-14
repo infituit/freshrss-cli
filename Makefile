@@ -13,9 +13,9 @@ OSES := linux darwin windows
 ARCHES := amd64 arm64
 LINUX_ARCHES := amd64 arm64 arm
 
-VERSION_LDFLAGS := -X freshrss-cli/pkg/version.VERSION=$(VERSION) \
-	-X freshrss-cli/pkg/version.BUILDTIME=$(BUILDTIME) \
-	-X freshrss-cli/pkg/version.GITHASH=$(GITHASH)
+VERSION_LDFLAGS := -X github.com/infituit/freshrss-cli/pkg/version.VERSION=$(VERSION) \
+	-X github.com/infituit/freshrss-cli/pkg/version.BUILDTIME=$(BUILDTIME) \
+	-X github.com/infituit/freshrss-cli/pkg/version.GITHASH=$(GITHASH)
 
 build: | pre
 	CGO_ENABLED=0 go build -trimpath -ldflags "$(VERSION_LDFLAGS)" -o $(OUTPUT_DIR)/$(APP_NAME) ./cmd/freshrss-cli

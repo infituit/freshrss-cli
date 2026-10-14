@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"freshrss-cli/internal/config"
+	"github.com/infituit/freshrss-cli/internal/config"
 )
 
 type HTTPClient interface {

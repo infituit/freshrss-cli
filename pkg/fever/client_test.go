@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"freshrss-cli/internal/config"
+	"github.com/infituit/freshrss-cli/internal/config"
 )
 
 func TestAPIKey(t *testing.T) {

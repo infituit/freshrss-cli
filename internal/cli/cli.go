@@ -7,9 +7,9 @@ import (
 	"io"
 	"net/http"
 
-	"freshrss-cli/internal/config"
-	"freshrss-cli/pkg/fever"
-	"freshrss-cli/pkg/version"
+	"github.com/infituit/freshrss-cli/internal/config"
+	"github.com/infituit/freshrss-cli/pkg/fever"
+	"github.com/infituit/freshrss-cli/pkg/version"
 )
 
 func Run(args []string, stdout, stderr io.Writer) error {

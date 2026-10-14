@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"freshrss-cli/internal/cli"
+	"github.com/infituit/freshrss-cli/internal/cli"
 )
 
 func main() {
