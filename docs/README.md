@@ -17,6 +17,7 @@
 - [架构设计](developer/architecture.md)：调用链、模块职责和依赖方向。
 - [代码目录](developer/code-structure.md)：`cmd`、`internal`、`pkg` 的目录约定。
 - [开发指南](developer/development.md)：本地开发、测试和新增功能的基本流程。
+- [版本与构建规则](developer/versioning.md)：发布版本、构建版本、元数据注入和产物目录约定。
 - [Git 协作规范](developer/git-contribution.md)：分支、Commit、Issue、PR 和按范围验证要求。
 
 ### Reference
