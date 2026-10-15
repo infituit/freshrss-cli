@@ -66,6 +66,8 @@ Use an English action-oriented title in `<type>: <subject> --issue=#N` form, suc
 
 ## 5. Remote Writes
 
+Create temporary Git worktrees inside the current repository at `.worktree/`; do not create worktree directories alongside the repository or under the shared workspace root. Keep `.worktree/` ignored and use a dedicated branch for each PR.
+
 Authorize separately: branch push; Issue create/edit; PR create/edit; labels/reviewers/assignees/milestones. Use explicit repository, base, head, and body-file arguments with `gh`. Read resources back after writes; after an ambiguous failure, query state before retrying.
 
 For `preflight`, finish with `No GitHub writes performed` and list pending actions. Delivery reports must include mode, scope/base/head, title, Issue relation, affected areas, actual checks, unverified checks, risks/rollback, and remote actions.
