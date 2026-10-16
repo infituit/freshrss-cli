@@ -1,4 +1,4 @@
-.PHONY: build platform-builds build-matrix fmt lint test integration-test clean pre
+.PHONY: build platform-builds build-matrix npm-packages fmt lint test integration-test clean pre
 
 GOLANGCI_LINT_TIMEOUT ?= 2m
 
@@ -44,6 +44,11 @@ build-matrix: | pre
 	echo "Building $(APP_NAME) $(VERSION) for $(GOOS)/$(GOARCH)..."; \
 	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -trimpath -ldflags "$(VERSION_LDFLAGS)" -o "$$binary" ./cmd/rss-cli; \
 	echo "Built: $$binary"
+
+npm-packages:
+	node npm/prepare.cjs --validate "$(VERSION)"
+	$(MAKE) platform-builds VERSION="$(VERSION)"
+	node npm/prepare.cjs "$(VERSION)"
 
 pre:
 	@mkdir -p $(OUTPUT_DIR)

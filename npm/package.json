@@ -1,0 +1,20 @@
+{
+  "name": "@infituit/rss-cli",
+  "version": "0.0.0",
+  "description": "Command-line access to RSS services",
+  "bin": {
+    "rss-cli": "run.cjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": ["run.cjs"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infituit/rss-cli.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": true
+}
