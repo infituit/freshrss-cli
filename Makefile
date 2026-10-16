@@ -11,7 +11,6 @@ OUTPUT_DIR := $(ROOT_DIR)/build/$(VERSION)
 APP_NAME := rss-cli
 OSES := linux darwin windows
 ARCHES := amd64 arm64
-LINUX_ARCHES := amd64 arm64 arm
 
 VERSION_LDFLAGS := -X github.com/infituit/rss-cli/pkg/version.VERSION=$(VERSION) \
 	-X github.com/infituit/rss-cli/pkg/version.BUILDTIME=$(BUILDTIME) \
@@ -23,9 +22,7 @@ build: | pre
 platform-builds: | pre
 	@set -e; \
 	for os in $(OSES); do \
-		arches="$(ARCHES)"; \
-		if [ "$$os" = "linux" ]; then arches="$(LINUX_ARCHES)"; fi; \
-		for arch in $$arches; do \
+		for arch in $(ARCHES); do \
 			ext=""; \
 			if [ "$$os" = "windows" ]; then ext=".exe"; fi; \
 			binary="$(OUTPUT_DIR)/$(APP_NAME)_$${os}_$${arch}$$ext"; \

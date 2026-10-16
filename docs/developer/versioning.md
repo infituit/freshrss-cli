@@ -49,6 +49,7 @@ v0.1.0-alpha.1-26.10.14
 - `-YY.MM.DD` 是构建日期后缀，用于区分当天的构建产物，不代表新的发布版本。
 - 工作区存在未提交修改时，`git describe` 可能在版本标识中包含 `-dirty`。
 - 通过 `make build VERSION=<version>` 可以显式覆盖默认构建版本。
+- Release workflow 会将完整 Git tag 显式传给 Makefile，因此发布构建不会追加日期后缀。
 
 ## 构建元数据
 
@@ -67,6 +68,8 @@ v0.1.0-alpha.1-26.10.14
 ```text
 build/<VERSION>/
 ```
+
+完整构建与 Release 支持 Linux、macOS（`darwin`）和 Windows 的 `amd64`、`arm64`，共六个平台组合，不包含 32 位 ARM。跨平台产物使用 `GOOS_GOARCH` 后缀，Windows 另加 `.exe`。
 
 常用命令：
 
