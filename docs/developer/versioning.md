@@ -80,3 +80,35 @@ make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=amd64
 ```
 
 构建目录已加入 Git 忽略规则。`make clean` 会删除整个 `build/` 目录。
+
+## npm 包构建
+
+需要 Node.js 22 或更新版本。npm 包构建必须显式传入合法 SemVer 版本：`make npm-packages VERSION=<version>`；它会完成六个平台构建并生成 npm 主包和平台包到：
+
+```text
+build/<version>/npm/
+├── rss-cli/
+├── linux-x64/
+├── linux-arm64/
+├── darwin-x64/
+├── darwin-arm64/
+├── win32-x64/
+└── win32-arm64/
+```
+
+主包名称为 `@infituit/rss-cli`，平台包使用同一 scope 和版本。主包的 `rss-cli` 命令只选择当前系统的可选平台依赖，并透传参数、标准输入输出和退出状态；不支持的平台会直接报错，不会在运行时下载二进制。
+
+本地检查包内容：
+
+```sh
+make npm-packages VERSION=v0.1.0-alpha.1
+npm pack --dry-run ./build/v0.1.0-alpha.1/npm/rss-cli
+npm pack --dry-run ./build/v0.1.0-alpha.1/npm/linux-x64
+VERSION=v0.1.0-alpha.1 node --test npm/smoke.test.cjs
+```
+
+本地测试将主包与当前平台包打包到临时目录，离线安装并禁用安装脚本，比较启动器与原生二进制的输出和退出码，并验证平台包缺失时的错误。测试结束后清理临时目录。
+
+npm 版本取显式传入的版本去掉 `v` 前缀，必须符合 SemVer；二进制仍保留完整版本。主包通过 `optionalDependencies` 精确引用六个平台包，安装时不能省略可选依赖。
+
+npm 发布不属于本地构建目标；发布前必须先发布六个平台包，再发布同版本主包，并确认 npm registry 中的 package scope 权限。
