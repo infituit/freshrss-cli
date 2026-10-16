@@ -82,9 +82,6 @@ jobs:
             goarch: amd64
           - goos: linux
             goarch: arm64
-          - goos: linux
-            goarch: arm
-            goarm: "7"
           - goos: darwin
             goarch: amd64
           - goos: darwin
@@ -106,15 +103,11 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
-          GOARM: ${{ matrix.goarm }}
           TAG: ${{ needs.validate.outputs.tag }}
         run: |
           set -euo pipefail
           version="${TAG#v}"
           suffix="${GOOS}_${GOARCH}"
-          if [ -n "${GOARM:-}" ]; then
-            suffix="${suffix}v${GOARM}"
-          fi
           archive="${APP_NAME}_${version}_${suffix}"
           mkdir -p dist
           ext=""
@@ -122,9 +115,8 @@ jobs:
           make build-matrix \
             VERSION="$TAG" \
             GOOS="$GOOS" \
-            GOARCH="$GOARCH" \
-            GOARM="${GOARM:-}"
-          cp "build/${TAG}/${APP_NAME}_${GOOS}_${GOARCH}${GOARM:+v${GOARM}}${ext}" "dist/${APP_NAME}${ext}"
+            GOARCH="$GOARCH"
+          cp "build/${TAG}/${APP_NAME}_${GOOS}_${GOARCH}${ext}" "dist/${APP_NAME}${ext}"
           if [ "$GOOS" = windows ]; then
             (cd dist && zip "../${archive}.zip" "${APP_NAME}.exe")
           else
@@ -134,13 +126,13 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: release-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goarm && format('v{0}', matrix.goarm) || '' }}
+          name: release-${{ matrix.goos }}-${{ matrix.goarch }}
           path: "*.tar.gz"
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v7
         with:
-          name: release-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goarm && format('v{0}', matrix.goarm) || '' }}-zip
+          name: release-${{ matrix.goos }}-${{ matrix.goarch }}-zip
           path: "*.zip"
           if-no-files-found: ignore
 

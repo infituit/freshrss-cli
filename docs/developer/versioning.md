@@ -69,7 +69,7 @@ v0.1.0-alpha.1-26.10.14
 build/<VERSION>/
 ```
 
-Linux ARMv7 产物使用 `armv7` 后缀；其他平台使用对应的 `GOOS_GOARCH` 后缀。
+完整构建与 Release 支持 Linux、macOS（`darwin`）和 Windows 的 `amd64`、`arm64`，共六个平台组合，不包含 32 位 ARM。跨平台产物使用 `GOOS_GOARCH` 后缀，Windows 另加 `.exe`。
 
 常用命令：
 
@@ -77,7 +77,6 @@ Linux ARMv7 产物使用 `armv7` 后缀；其他平台使用对应的 `GOOS_GOAR
 make build VERSION=v0.1.0-alpha.1
 make platform-builds VERSION=v0.1.0-alpha.1
 make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=amd64
-make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=arm GOARM=7
 ```
 
 构建目录已加入 Git 忽略规则。`make clean` 会删除整个 `build/` 目录。
