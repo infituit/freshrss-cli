@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   check-pr-title:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     concurrency:
       group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
       cancel-in-progress: true
