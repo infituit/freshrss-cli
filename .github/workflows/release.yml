@@ -68,7 +68,7 @@ jobs:
           go-version-file: go.mod
 
       - run: go test ./...
-      - run: go build ./cmd/rss-cli
+      - run: make build VERSION="${{ needs.validate.outputs.tag }}"
 
   build:
     name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
@@ -111,7 +111,6 @@ jobs:
         run: |
           set -euo pipefail
           version="${TAG#v}"
-          git_hash="$(git rev-parse --short HEAD)"
           suffix="${GOOS}_${GOARCH}"
           if [ -n "${GOARM:-}" ]; then
             suffix="${suffix}v${GOARM}"
@@ -120,9 +119,12 @@ jobs:
           mkdir -p dist
           ext=""
           if [ "$GOOS" = windows ]; then ext=.exe; fi
-          CGO_ENABLED=0 go build -trimpath \
-            -ldflags "-X github.com/infituit/rss-cli/pkg/version.VERSION=$TAG -X github.com/infituit/rss-cli/pkg/version.GITHASH=$git_hash" \
-            -o "dist/${APP_NAME}${ext}" ./cmd/rss-cli
+          make build-matrix \
+            VERSION="$TAG" \
+            GOOS="$GOOS" \
+            GOARCH="$GOARCH" \
+            GOARM="${GOARM:-}"
+          cp "build/${TAG}/${APP_NAME}_${GOOS}_${GOARCH}${GOARM:+v${GOARM}}${ext}" "dist/${APP_NAME}${ext}"
           if [ "$GOOS" = windows ]; then
             (cd dist && zip "../${archive}.zip" "${APP_NAME}.exe")
           else

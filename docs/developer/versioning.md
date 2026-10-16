@@ -49,6 +49,7 @@ v0.1.0-alpha.1-26.10.14
 - `-YY.MM.DD` 是构建日期后缀，用于区分当天的构建产物，不代表新的发布版本。
 - 工作区存在未提交修改时，`git describe` 可能在版本标识中包含 `-dirty`。
 - 通过 `make build VERSION=<version>` 可以显式覆盖默认构建版本。
+- Release workflow 会将完整 Git tag 显式传给 Makefile，因此发布构建不会追加日期后缀。
 
 ## 构建元数据
 
@@ -68,12 +69,15 @@ v0.1.0-alpha.1-26.10.14
 build/<VERSION>/
 ```
 
+Linux ARMv7 产物使用 `armv7` 后缀；其他平台使用对应的 `GOOS_GOARCH` 后缀。
+
 常用命令：
 
 ```sh
 make build VERSION=v0.1.0-alpha.1
 make platform-builds VERSION=v0.1.0-alpha.1
 make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=amd64
+make build-matrix VERSION=v0.1.0-alpha.1 GOOS=linux GOARCH=arm GOARM=7
 ```
 
 构建目录已加入 Git 忽略规则。`make clean` 会删除整个 `build/` 目录。
