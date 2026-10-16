@@ -24,7 +24,7 @@ env:
 jobs:
   validate:
     name: Validate release tag
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       tag: ${{ steps.release-tag.outputs.tag }}
     steps:
@@ -57,7 +57,7 @@ jobs:
   test:
     name: Test
     needs: validate
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v6
         with:
@@ -73,7 +73,7 @@ jobs:
   build:
     name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
     needs: [validate, test]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -139,7 +139,7 @@ jobs:
   publish:
     name: Publish GitHub Release
     needs: [validate, build]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/download-artifact@v7
         with:
